@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kulpreet — Logo & Visual Identity Designer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* ══════════════════════════════════
+           BRUTALIST BASE
+        ══════════════════════════════════ */
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f0e8;
+            --accent: #ff3c00;
+            --yellow: #ffe135;
+            --shadow-offset: 6px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── Brutalist hard-shadow utility ── */
+        .brut-shadow {
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--black);
+            border: 2px solid var(--black);
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+        .brut-shadow:hover {
+            box-shadow: 10px 10px 0 0 var(--black);
+            transform: translate(-3px, -3px);
+        }
+
+        .brut-shadow-sm {
+            box-shadow: 4px 4px 0 0 var(--black);
+            border: 2px solid var(--black);
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+        .brut-shadow-sm:hover {
+            box-shadow: 7px 7px 0 0 var(--black);
+            transform: translate(-2px, -2px);
+        }
+
+        .brut-shadow-accent {
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--accent);
+            border: 2px solid var(--black);
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+        .brut-shadow-accent:hover {
+            box-shadow: 10px 10px 0 0 var(--accent);
+            transform: translate(-3px, -3px);
+        }
+
+        .brut-shadow-yellow {
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--yellow);
+            border: 2px solid var(--black);
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+        .brut-shadow-yellow:hover {
+            box-shadow: 10px 10px 0 0 var(--yellow);
+            transform: translate(-3px, -3px);
+        }
+
+        /* ── Connect Button (Same hover as Instagram & LinkedIn) ── */
+        .btn-connect {
+            border: 2px solid #0a0a0a;
+            background: #0a0a0a;
+            color: var(--white);
+            box-shadow: none;
+            transform: translate(0, 0);
+            transition: all 0.2s ease;
+        }
+        .btn-connect:hover {
+            border-color: var(--accent) !important;
+            box-shadow: 5px 5px 0 0 var(--accent) !important;
+            transform: translate(-2px, -2px) !important;
+            color: var(--white) !important;
+        }
+
+        /* ── Text shadow (outline/stacked look) ── */
+        .text-outline {
+            -webkit-text-stroke: 2px var(--black);
+            color: transparent;
+        }
+        .text-outline-white {
+            -webkit-text-stroke: 2px var(--white);
+            color: transparent;
+        }
+
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ── Nav border ── */
+        nav {
+            border-bottom: 2px solid var(--black);
+            background: var(--white);
+        }
+
+        /* ── Ticker / marquee ── */
+        .ticker-wrap { overflow: hidden; border-top: 2px solid var(--black); border-bottom: 2px solid var(--black); background: var(--yellow); }
+        .ticker { display: flex; width: max-content; animation: ticker-scroll 22s linear infinite; }
+        .ticker:hover { animation-play-state: paused; }
+        @keyframes ticker-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-item { white-space: nowrap; padding: 0 2.5rem; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); }
+
+        /* ── Gallery grid ── */
+        .masonry-grid { column-count: 1; column-gap: 1.25rem; }
+        @media (min-width: 640px)  { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
+
+        /* ── Neo-Brutalist Selected Marks Containers (NO RED) ── */
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.25rem;
+            position: relative;
+            border: 2px solid var(--black);
+            background-color: #ffffff;
+            box-shadow: 4px 4px 0 0 var(--black);
+            transform: translate(0, 0);
+            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+                        background-color 0.15s ease,
+                        border-color 0.15s ease;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem 3.5rem;
+        }
+
+        .masonry-item:hover {
+            transform: translate(-3px, -3px);
+            background-color: #0a0a0a;
+            box-shadow: 8px 8px 0 0 var(--black);
+        }
+
+        /* Logo mark image: inverts to crisp white on dark hover */
+        .masonry-item img {
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.15s ease;
+            mix-blend-mode: multiply;
+            max-height: 185px;
+            object-fit: contain;
+        }
+
+        .masonry-item:hover img {
+            transform: scale(1.08);
+            filter: invert(1);
+            mix-blend-mode: normal;
+        }
+
+        /* Top-Left Index Tag */
+        .mark-idx {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.45rem;
+            border: 1.5px solid var(--black);
+            background: #ffffff;
+            color: var(--black);
+            box-shadow: 2px 2px 0 0 var(--black);
+            transition: all 0.15s ease;
+            pointer-events: none;
+        }
+        .masonry-item:hover .mark-idx {
+            background: var(--yellow);
+            color: var(--black);
+            border-color: #ffffff;
+            box-shadow: 2px 2px 0 0 #ffffff;
+        }
+
+        /* Top-Right "ZOOM ↗" Action Pill */
+        .mark-action {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.5rem;
+            border: 1.5px solid var(--black);
+            background: #ffffff;
+            color: var(--black);
+            box-shadow: 2px 2px 0 0 var(--black);
+            opacity: 0;
+            transform: translateY(-4px);
+            transition: all 0.15s ease;
+            pointer-events: none;
+        }
+        .masonry-item:hover .mark-action {
+            opacity: 1;
+            transform: translateY(0);
+            background: var(--yellow);
+            color: var(--black);
+            border-color: #ffffff;
+            box-shadow: 2px 2px 0 0 #ffffff;
+        }
+
+        /* Bottom Brand Name Badge */
+        .mark-badge {
+            position: absolute;
+            bottom: 0.85rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            padding: 0.3rem 0.85rem;
+            border: 1.5px solid var(--black);
+            background-color: #ffffff;
+            color: var(--black);
+            box-shadow: 2px 2px 0 0 var(--black);
+            transition: all 0.15s ease;
+            pointer-events: none;
+        }
+        .masonry-item:hover .mark-badge {
+            background-color: var(--yellow);
+            color: var(--black);
+            border-color: #ffffff;
+            box-shadow: 3px 3px 0 0 #ffffff;
+            transform: translateX(-50%) translateY(-2px);
+        }
+
+        /* ── Lightbox ── */
+        #lightbox {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(10,10,10,0.95);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #lightbox.open { opacity: 1; pointer-events: all; }
+        #lightbox img {
+            max-width: 88vw; max-height: 86vh; object-fit: contain;
+            border: 3px solid var(--white);
+            box-shadow: 10px 10px 0 0 var(--accent);
+            transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        #lightbox.open img { transform: scale(1); }
+        #lb-close {
+            position: absolute; top: 1.5rem; right: 1.75rem;
+            font-size: 2rem; color: var(--white); font-family: 'Space Mono', monospace;
+            cursor: pointer; transition: color 0.2s, transform 0.2s;
+        }
+        #lb-close:hover { color: var(--accent); transform: scale(1.2); }
+        #lb-prev, #lb-next {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            font-size: 2.5rem; color: var(--white); font-family: 'Space Mono', monospace;
+            cursor: pointer; padding: 0 1rem; transition: color 0.2s;
+        }
+        #lb-prev { left: 1rem; }  #lb-next { right: 1rem; }
+        #lb-prev:hover, #lb-next:hover { color: var(--accent); }
+        #lb-caption {
+            position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+            font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: #aaa; white-space: nowrap;
+        }
+
+        /* ── Scroll progress bar ── */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 9998;
+            width: 0%; background: var(--accent);
+        }
+
+        /* ── Custom cursor ── */
+        * { cursor: none !important; }
+        #cur-dot {
+            position: fixed; z-index: 10000; pointer-events: none;
+            width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
+            transform: translate(-50%,-50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+        }
+        #cur-ring {
+            position: fixed; z-index: 9999; pointer-events: none;
+            width: 32px; height: 32px;
+            border: 2px solid var(--black);
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            transition: width 0.25s ease, height 0.25s ease, border-color 0.2s;
+        }
+        body.c-hover #cur-dot  { width: 6px; height: 6px; }
+        body.c-hover #cur-ring { width: 50px; height: 50px; border-color: var(--accent); }
+        body.c-hover-mark #cur-dot  { width: 8px; height: 8px; background: var(--yellow); }
+        body.c-hover-mark #cur-ring { width: 52px; height: 52px; border-color: var(--yellow); }
+
+        /* ── Section divider lines ── */
+        .brut-divider { border: 0; border-top: 2px solid var(--black); margin: 0; }
+
+        /* ── Principle cards ── */
+        .principle-card {
+            background: var(--white);
+            border: 2px solid var(--black);
+            padding: 2rem;
+            transition: box-shadow 0.15s, transform 0.15s;
+        }
+        .principle-card:hover {
+            box-shadow: 8px 8px 0 0 var(--black);
+            transform: translate(-3px, -3px);
+        }
+
+        /* ── Typewriter cursor ── */
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .tw-cursor { animation: blink 0.85s step-end infinite; }
+
+        /* ── Footer grid dividers ── */
+        .footer-col { border-right: 2px solid #2a2a2a; }
+        .footer-col:last-child { border-right: none; }
+
+        /* ── Spin slow ── */
+        @keyframes spin-slow { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+        .spin-slow { animation: spin-slow 14s linear infinite; }
+
+        /* ── Blob morph ── */
+        @keyframes blob-morph {
+            0%   { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            50%  { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+        }
+        .blob { animation: blob-morph 7s ease-in-out infinite; }
+
+        /* ── Stagger reveal delay helpers ── */
+        .delay-100  { transition-delay: 0.10s; }
+        .delay-200  { transition-delay: 0.20s; }
+        .delay-300  { transition-delay: 0.30s; }
+        .delay-400  { transition-delay: 0.40s; }
+        .delay-500  { transition-delay: 0.50s; }
+
+        /* Smooth scroll anchor offset */
+        [id] { scroll-margin-top: 80px; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Custom Cursor -->
+    <div id="cur-dot"></div>
+    <div id="cur-ring"></div>
+
+    <!-- Scroll Progress -->
+    <div id="progress-bar"></div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" role="dialog" aria-modal="true">
+        <button id="lb-close" aria-label="Close">&#x2715;</button>
+        <button id="lb-prev" aria-label="Previous">&#x2039;</button>
+        <img id="lb-img" src="" alt="Gallery image">
+        <button id="lb-next" aria-label="Next">&#x203A;</button>
+        <p id="lb-caption"></p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         1. NAVIGATION
+    ══════════════════════════════════════ -->
+    <nav class="fixed w-full top-0 z-50">
+        <div class="max-w-screen-xl mx-auto px-6 lg:px-10 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#hero" class="font-bold text-xl tracking-tight font-mono">
+                KULPREET<span style="color:var(--accent)">.</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold uppercase tracking-widest">
+                <a href="#hero"    class="hover:text-[color:var(--accent)] transition-colors">Home</a>
+                <a href="#work"    class="hover:text-[color:var(--accent)] transition-colors">Work</a>
+                <a href="#about"   class="hover:text-[color:var(--accent)] transition-colors">About</a>
+                <a href="#gallery" class="hover:text-[color:var(--accent)] transition-colors">Gallery</a>
+                <a href="#contact"
+                   class="btn-connect px-5 py-2 font-bold uppercase tracking-widest text-xs border-2 transition-all duration-200 inline-block"
+                   style="border-color:#0a0a0a;background:#0a0a0a;color:var(--white);font-family:'Space Mono',monospace"
+                   onmouseover="this.style.borderColor='var(--accent)';this.style.boxShadow='5px 5px 0 0 var(--accent)';this.style.transform='translate(-2px,-2px)'"
+                   onmouseout="this.style.borderColor='#0a0a0a';this.style.boxShadow='none';this.style.transform=''">
+                    Connect
+                </a>
+            </div>
+
+            <!-- Mobile burger -->
+            <button id="mob-btn" class="md:hidden p-1" aria-label="Menu">
+                <svg id="mob-open"  class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="mob-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mob-menu" class="hidden md:hidden border-t-2 border-black bg-[color:var(--white)] px-6 py-5 space-y-4">
+            <a href="#hero"    class="block font-bold uppercase tracking-widest text-sm hover:text-[color:var(--accent)]">Home</a>
+            <a href="#work"    class="block font-bold uppercase tracking-widest text-sm hover:text-[color:var(--accent)]">Work</a>
+            <a href="#about"   class="block font-bold uppercase tracking-widest text-sm hover:text-[color:var(--accent)]">About</a>
+            <a href="#gallery" class="block font-bold uppercase tracking-widest text-sm hover:text-[color:var(--accent)]">Gallery</a>
+            <a href="#contact" class="block font-bold uppercase tracking-widest text-sm hover:text-[color:var(--accent)]">Connect</a>
+        </div>
+    </nav>
+
+    <!-- ══════════════════════════════════════
+         2. HERO
+    ══════════════════════════════════════ -->
+    <header id="hero" class="pt-36 pb-0 px-6 lg:px-10 max-w-screen-xl mx-auto">
+
+        <!-- Eyebrow -->
+        <div class="reveal flex items-center gap-4 mb-8">
+            <span class="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] border-2 border-black bg-[color:var(--yellow)]"
+                  style="font-family:'Space Mono',monospace">
+                Logo &amp; Visual Identity
+            </span>
+            <span class="text-xs font-mono uppercase tracking-widest text-stone-500">Available · 2026</span>
+        </div>
+
+        <!-- Headline -->
+        <div class="reveal delay-100 mb-10">
+            <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] font-bold leading-[0.95] tracking-tight uppercase"
+                style="font-family:'Space Grotesk',sans-serif">
+                Crafting<br>
+                Visual<br>
+                <span class="text-outline" style="-webkit-text-stroke:3px var(--black)">Identities</span><br>
+                <span style="color:var(--accent)">With Intent.</span>
+            </h1>
+        </div>
+
+        <!-- Subtext + CTA row -->
+        <div class="reveal delay-200 border-t-2 border-black pt-8 pb-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+            <p class="text-lg text-stone-600 max-w-md leading-relaxed" style="font-family:'Space Grotesk',sans-serif">
+                I design minimal, memorable logos and brand systems that speak clearly and stand the test of time.
+                <span class="font-bold text-black"> Every mark has a story — let's tell yours.</span>
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#work"
+                   class="btn-connect px-7 py-4 font-bold uppercase tracking-widest text-sm border-2 transition-all duration-200 inline-block"
+                   style="border-color:#0a0a0a;background:#0a0a0a;color:var(--white);font-family:'Space Mono',monospace"
+                   onmouseover="this.style.borderColor='var(--accent)';this.style.boxShadow='5px 5px 0 0 var(--accent)';this.style.transform='translate(-2px,-2px)'"
+                   onmouseout="this.style.borderColor='#0a0a0a';this.style.boxShadow='none';this.style.transform=''">
+                    Explore Work →
+                </a>
+                <a href="#contact"
+                   class="btn-connect px-7 py-4 font-bold uppercase tracking-widest text-sm border-2 transition-all duration-200 inline-block"
+                   style="border-color:#0a0a0a;background:#0a0a0a;color:var(--white);font-family:'Space Mono',monospace"
+                   onmouseover="this.style.borderColor='var(--accent)';this.style.boxShadow='5px 5px 0 0 var(--accent)';this.style.transform='translate(-2px,-2px)'"
+                   onmouseout="this.style.borderColor='#0a0a0a';this.style.boxShadow='none';this.style.transform=''">
+                    Connect →
+                </a>
+            </div>
+        </div>
+
+        <!-- Stat bar -->
+        <div class="reveal delay-300 grid grid-cols-3 border-2 border-black mb-0">
+            <div class="p-6 border-r-2 border-black text-center">
+                <p class="text-4xl font-bold stat-num" data-target="30" data-suffix="+">0</p>
+                <p class="text-xs uppercase tracking-widest font-mono mt-1 text-stone-500">Projects</p>
+            </div>
+            <div class="p-6 border-r-2 border-black text-center">
+                <p class="text-4xl font-bold stat-num" data-target="4" data-suffix="+">0</p>
+                <p class="text-xs uppercase tracking-widest font-mono mt-1 text-stone-500">Years</p>
+            </div>
+            <div class="p-6 text-center">
+                <p class="text-4xl font-bold stat-num" data-target="100" data-suffix="%">0</p>
+                <p class="text-xs uppercase tracking-widest font-mono mt-1 text-stone-500">Intent</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ── Ticker tape ── -->
+    <div class="ticker-wrap py-3 my-0">
+        <div class="ticker">
+            <span class="ticker-item">Logo Design ✦</span>
+            <span class="ticker-item">Brand Identity ✦</span>
+            <span class="ticker-item">Visual Systems ✦</span>
+            <span class="ticker-item">Typography ✦</span>
+            <span class="ticker-item">Colour Strategy ✦</span>
+            <span class="ticker-item">Symbolism ✦</span>
+            <span class="ticker-item">Perception Psychology ✦</span>
+            <span class="ticker-item">Memorable Marks ✦</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="ticker-item">Logo Design ✦</span>
+            <span class="ticker-item">Brand Identity ✦</span>
+            <span class="ticker-item">Visual Systems ✦</span>
+            <span class="ticker-item">Typography ✦</span>
+            <span class="ticker-item">Colour Strategy ✦</span>
+            <span class="ticker-item">Symbolism ✦</span>
+            <span class="ticker-item">Perception Psychology ✦</span>
+            <span class="ticker-item">Memorable Marks ✦</span>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         3. FEATURED WORK
+    ══════════════════════════════════════ -->
+    <section id="work" class="py-20 px-6 lg:px-10 max-w-screen-xl mx-auto">
+
+        <div class="reveal flex items-end justify-between mb-12 border-b-2 border-black pb-6">
+            <h2 class="text-4xl md:text-5xl font-bold uppercase" style="font-family:'Space Grotesk',sans-serif">
+                Selected<br><span style="color:var(--accent)">Work</span>
+            </h2>
+            <span class="text-xs font-mono uppercase tracking-widest text-stone-400">02 Projects</span>
+        </div>
+
+        <!-- Project 1: Elvare -->
+        <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-0 border-2 border-black mb-8 overflow-hidden group">
+            <!-- Image panel -->
+            <div class="lg:col-span-7 order-1 lg:order-2 bg-[#f6f5ef] flex justify-center items-center p-14 md:p-20 min-h-[400px] border-b-2 lg:border-b-0 lg:border-l-2 border-black">
+                <img src="elvare-logo.jpg" alt="Elvare Logo"
+                     class="w-full max-w-sm h-auto transition-transform duration-700 group-hover:scale-105"
+                     onerror="this.src='https://placehold.co/600x800/f6f5ef/1c1917?text=Elvare+Logo'">
+            </div>
+            <!-- Text panel -->
+            <div class="lg:col-span-5 order-2 lg:order-1 p-10 flex flex-col justify-between">
+                <div>
+                    <span class="inline-block px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest border-2 border-black bg-[color:var(--yellow)] mb-5">Sustainable Cosmetics</span>
+                    <h3 class="text-5xl font-bold uppercase mb-5 leading-tight" style="font-family:'Space Grotesk',sans-serif">Elvare</h3>
+                    <p class="text-stone-600 leading-relaxed mb-6">
+                        A conceptual sustainable cosmetic brand inspired by nature's grounding energy. Celebrating simplicity, mindfulness, and purity — inviting users to slow down and reconnect.
+                    </p>
+                    <div class="space-y-3 mb-8">
+                        <div class="border-l-4 border-black pl-4">
+                            <p class="text-xs font-mono font-bold uppercase tracking-wider mb-0.5">Vision</p>
+                            <p class="text-sm text-stone-600">To redefine beauty as a ritual of calm and connection to nature.</p>
+                        </div>
+                        <div class="border-l-4 pl-4" style="border-color:var(--accent)">
+                            <p class="text-xs font-mono font-bold uppercase tracking-wider mb-0.5">Mission</p>
+                            <p class="text-sm text-stone-600">To craft pure, sustainable skincare that nurtures both skin and planet.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Palette -->
+                <div>
+                    <p class="text-xs font-mono uppercase tracking-widest text-stone-400 mb-3">Colour Palette</p>
+                    <div class="flex gap-2">
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#c8c3b5" title="Warm Stone"></div>
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#8c8375" title="Earth"></div>
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#f6f5ef" title="Cream"></div>
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#2f2b22" title="Deep Bark"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2: Nudge -->
+        <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-0 border-2 border-black overflow-hidden group">
+            <!-- Image panel -->
+            <div class="lg:col-span-7 bg-[#4c6ab0] flex justify-center items-center p-14 md:p-20 min-h-[400px] border-b-2 lg:border-b-0 lg:border-r-2 border-black">
+                <img src="Vector.png" alt="Nudge Vector Graphic"
+                     class="w-full max-w-xs h-auto transition-transform duration-700 group-hover:scale-110"
+                     onerror="this.src='https://placehold.co/600x800/4c6ab0/ffffff?text=Nudge+Vector'">
+            </div>
+            <!-- Text panel -->
+            <div class="lg:col-span-5 p-10 flex flex-col justify-between">
+                <div>
+                    <span class="inline-block px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest border-2 border-black mb-5" style="background:var(--accent);color:#fff">Health &amp; Fitness</span>
+                    <h3 class="text-5xl font-bold uppercase mb-5 leading-tight" style="font-family:'Space Grotesk',sans-serif">Nudge</h3>
+                    <p class="text-stone-600 leading-relaxed mb-8">
+                        An intelligent health companion built for gentle accountability — not intimidation. Clear metrics and unobtrusive reminders that feel like a supportive sidekick, not a drill sergeant.
+                    </p>
+                </div>
+                <!-- Palette -->
+                <div>
+                    <p class="text-xs font-mono uppercase tracking-widest text-stone-400 mb-3">Colour Palette</p>
+                    <div class="flex gap-2">
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#4c6ab0" title="Brand Blue"></div>
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#8fa3d0" title="Light Blue"></div>
+                        <div class="w-9 h-9 border-2 border-black hover:-translate-y-1 transition-transform" style="background:#ffffff" title="White"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         4. ABOUT — THE MIND BEHIND THE MARK
+    ══════════════════════════════════════ -->
+    <section id="about" class="py-20 border-t-2 border-black" style="background:var(--black);color:var(--white)">
+        <div class="max-w-screen-xl mx-auto px-6 lg:px-10">
+
+            <!-- Section header -->
+            <div class="reveal flex items-end justify-between mb-14 border-b-2 pb-6" style="border-color:#2a2a2a">
+                <h2 class="text-4xl md:text-5xl font-bold uppercase leading-tight" style="font-family:'Space Grotesk',sans-serif">
+                    The Mind<br><span class="text-outline-white">Behind</span> <span style="color:var(--accent)">The Mark</span>
+                </h2>
+                <span class="text-xs font-mono uppercase tracking-widest" style="color:#666">Philosophy</span>
+            </div>
+
+            <!-- Bio grid -->
+            <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-0 mb-16 border-2" style="border-color:#2a2a2a">
+                <div class="p-10 border-b-2 lg:border-b-0 lg:border-r-2" style="border-color:#2a2a2a">
+                    <p class="text-xs font-mono uppercase tracking-widest mb-6" style="color:var(--accent)">Who I Am</p>
+                    <p class="text-xl leading-relaxed" style="color:#d1cdc5">
+                        I'm fascinated by the relationship between how people <strong style="color:var(--white)">think</strong>, what they <strong style="color:var(--white)">feel</strong>, and what they <strong style="color:var(--white)">see</strong>. With a background in psychology and a deep interest in visual design, I explore how colours, shapes and symbols shape perception.
+                    </p>
+                </div>
+                <div class="p-10">
+                    <p class="text-xs font-mono uppercase tracking-widest mb-6" style="color:var(--yellow)">The Approach</p>
+                    <blockquote class="text-xl leading-relaxed italic" style="color:#d1cdc5;font-family:'Playfair Display',serif">
+                        "I enjoy finding meaning in the simplest of forms, experimenting with visual symbolism and turning ideas into identities. For me, a logo isn't just something people look at — it's something they should be able to recognise, remember and connect with."
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Gestalt / Perception illusion -->
+            <div class="reveal flex flex-col items-center mb-16">
+                <p class="text-xs font-mono uppercase tracking-[0.25em] mb-10" style="color:#666">Your mind sees more than your eyes.</p>
+                <div class="relative group cursor-crosshair mb-6 w-56 h-56 border-2" style="border-color:#2a2a2a">
+                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                        <circle cx="40"  cy="40"  r="35" fill="#f5f0e8"/>
+                        <circle cx="160" cy="40"  r="35" fill="#f5f0e8"/>
+                        <circle cx="40"  cy="160" r="35" fill="#f5f0e8"/>
+                        <circle cx="160" cy="160" r="35" fill="#f5f0e8"/>
+                        <rect x="40" y="40" width="120" height="120" fill="#0a0a0a"
+                              class="transition-all duration-700 group-hover:opacity-0"/>
+                        <rect x="40" y="40" width="120" height="120" fill="transparent"
+                              stroke="#f5f0e8" stroke-width="2" stroke-dasharray="10 6"
+                              class="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        <span style="font-family:'Playfair Display',serif;color:var(--white);font-style:italic">Illusion</span>
+                    </div>
+                </div>
+                <p class="text-sm text-center max-w-sm" style="color:#888">
+                    Your brain connects patterns, fills gaps and finds meaning. That's what makes visual identity so powerful.
+                </p>
+            </div>
+
+            <!-- Three principles -->
+            <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-0 border-2 border-t-0" style="border-color:#2a2a2a">
+
+                <div class="principle-card border-b-2 md:border-b-0 md:border-r-2 p-10 group" style="background:#111;border-color:#2a2a2a;border-radius:0;border-left:0;border-top:0">
+                    <!-- Icon -->
+                    <div class="h-20 flex items-center mb-6 relative">
+                        <div class="w-11 h-11 border-2 border-[color:var(--white)] rounded-sm transform rotate-45 group-hover:rotate-0 transition-all duration-700 absolute z-10"></div>
+                        <div class="w-11 h-11 border-2 rounded-full transform -translate-x-6 group-hover:translate-x-0 transition-all duration-700 absolute opacity-50 group-hover:opacity-100" style="border-color:var(--accent)"></div>
+                    </div>
+                    <h4 class="font-mono font-bold uppercase tracking-widest text-sm mb-3" style="color:var(--accent)">Perception</h4>
+                    <p class="text-sm leading-relaxed" style="color:#888">How people interpret shapes, patterns and visual information at a subconscious level.</p>
+                </div>
+
+                <div class="principle-card border-b-2 md:border-b-0 md:border-r-2 p-10 group" style="background:#111;border-color:#2a2a2a;border-radius:0;border-left:0;border-top:0">
+                    <div class="h-20 flex items-center mb-6 relative">
+                        <div class="w-14 h-14 rounded-full group-hover:scale-110 transition-all duration-500 blob absolute" style="background:#2a2a2a;border:2px solid var(--yellow)"></div>
+                    </div>
+                    <h4 class="font-mono font-bold uppercase tracking-widest text-sm mb-3" style="color:var(--yellow)">Emotion</h4>
+                    <p class="text-sm leading-relaxed" style="color:#888">How colours, forms and visual associations trigger emotional responses that shape brand perception.</p>
+                </div>
+
+                <div class="principle-card p-10 group" style="background:#111;border-color:#2a2a2a;border-radius:0;border-left:0;border-top:0;border-right:0">
+                    <div class="h-20 flex items-center mb-6 relative">
+                        <div class="w-4 h-4 rounded-full relative z-20" style="background:var(--white)"></div>
+                        <div class="absolute w-4 h-4 border rounded-full group-hover:w-16 group-hover:h-16 transition-all duration-700 group-hover:opacity-0 z-10" style="border-color:var(--white)"></div>
+                        <div class="absolute w-4 h-4 border rounded-full group-hover:w-24 group-hover:h-24 transition-all duration-1000 group-hover:opacity-0 delay-100 z-10" style="border-color:#666"></div>
+                    </div>
+                    <h4 class="font-mono font-bold uppercase tracking-widest text-sm mb-3" style="color:var(--white)">Memory</h4>
+                    <p class="text-sm leading-relaxed" style="color:#888">How simplicity and symbolism make a visual identity recognisable, sticky and enduring over time.</p>
+                </div>
+
+            </div>
+
+            <!-- Closing statement -->
+            <div class="reveal mt-16 border-2 p-12 text-center relative overflow-hidden" style="border-color:#2a2a2a">
+                <div class="relative w-12 h-12 mx-auto mb-10 flex items-center justify-center">
+                    <div class="absolute w-0.5 h-12 spin-slow" style="background:#333"></div>
+                    <div class="absolute w-12 h-0.5 spin-slow" style="background:#333;animation-direction:reverse"></div>
+                    <div class="absolute w-4 h-4 rotate-45 border-2" style="background:var(--black);border-color:var(--accent)"></div>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold leading-tight" style="font-family:'Space Grotesk',sans-serif">
+                    Good design catches the eye.<br>
+                    <span style="color:var(--accent)">Meaningful design</span> stays in the mind.
+                </h2>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         5. GALLERY — SELECTED MARKS
+    ══════════════════════════════════════ -->
+    <section id="gallery" class="py-20 px-6 lg:px-10 max-w-screen-xl mx-auto border-t-2 border-black">
+
+        <div class="reveal flex items-end justify-between mb-10 border-b-2 border-black pb-6">
+            <h2 class="text-4xl md:text-5xl font-bold uppercase" style="font-family:'Space Grotesk',sans-serif">
+                Selected<br><span style="color:var(--accent)">Marks</span>
+            </h2>
+            <span class="text-xs font-mono uppercase tracking-widest text-stone-400">Click to Zoom</span>
+        </div>
+
+        <div class="masonry-grid reveal">
+
+            <!-- Mark 01 -->
+            <div class="masonry-item min-h-[300px]">
+                <span class="mark-idx">01</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 1.png" alt="NEXIT Construction" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x400/f5f0e8/0a0a0a?text=Frame+1'">
+                <div class="mark-badge">NEXIT Construction</div>
+            </div>
+
+            <!-- Mark 02 -->
+            <div class="masonry-item min-h-[350px]">
+                <span class="mark-idx">02</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 2.png" alt="Pamela Learning Centre" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x500/f5f0e8/0a0a0a?text=Frame+2'">
+                <div class="mark-badge">Pamela Learning</div>
+            </div>
+
+            <!-- Mark 03 -->
+            <div class="masonry-item min-h-[250px]">
+                <span class="mark-idx">03</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 3.png" alt="ZINA Logistics" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x300/f5f0e8/0a0a0a?text=Frame+3'">
+                <div class="mark-badge">ZINA Logistics</div>
+            </div>
+
+            <!-- Mark 04 -->
+            <div class="masonry-item min-h-[320px]">
+                <span class="mark-idx">04</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 4.png" alt="Firm Foundation Academy" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x450/f5f0e8/0a0a0a?text=Frame+4'">
+                <div class="mark-badge">Firm Foundation</div>
+            </div>
+
+            <!-- Mark 05 -->
+            <div class="masonry-item min-h-[300px]">
+                <span class="mark-idx">05</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 5.png" alt="YoungStars Football Club" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x400/f5f0e8/0a0a0a?text=Frame+5'">
+                <div class="mark-badge">YoungStars FC</div>
+            </div>
+
+            <!-- Mark 06 -->
+            <div class="masonry-item min-h-[350px]">
+                <span class="mark-idx">06</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 6.png" alt="Bakers Kitchen" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x400/f5f0e8/0a0a0a?text=Frame+6'">
+                <div class="mark-badge">Bakers Kitchen</div>
+            </div>
+
+            <!-- Mark 07 -->
+            <div class="masonry-item min-h-[280px]">
+                <span class="mark-idx">07</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 7.png" alt="Aunty Didi's Kitchen" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x400/f5f0e8/0a0a0a?text=Frame+7'">
+                <div class="mark-badge">Aunty Didi's</div>
+            </div>
+
+            <!-- Mark 08 -->
+            <div class="masonry-item min-h-[300px]">
+                <span class="mark-idx">08</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 8.png" alt="Ipetex Studios" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x350/f5f0e8/0a0a0a?text=Frame+8'">
+                <div class="mark-badge">Ipetex Studios</div>
+            </div>
+
+            <!-- Mark 09 -->
+            <div class="masonry-item min-h-[350px]">
+                <span class="mark-idx">09</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 9.png" alt="Limelight News" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x450/f5f0e8/0a0a0a?text=Frame+9'">
+                <div class="mark-badge">Limelight News</div>
+            </div>
+
+            <!-- Mark 10 -->
+            <div class="masonry-item min-h-[300px]">
+                <span class="mark-idx">10</span>
+                <span class="mark-action">ZOOM ↗</span>
+                <img src="Frame 10.png" alt="StarTimes" class="w-full h-auto max-w-[200px]" onerror="this.src='https://placehold.co/400x400/f5f0e8/0a0a0a?text=Frame+10'">
+                <div class="mark-badge">StarTimes</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         6. FOOTER / CONTACT
+    ══════════════════════════════════════ -->
+    <footer id="contact" class="border-t-4 border-black" style="background:var(--black);color:var(--white)">
+
+        <!-- CTA Band -->
+        <div class="border-b-2 py-20 px-6 lg:px-10" style="border-color:#1a1a1a">
+            <div class="max-w-screen-xl mx-auto reveal">
+
+                <!-- Badge -->
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 border-2 text-xs font-mono uppercase tracking-widest" style="border-color:var(--accent);color:var(--accent)">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background:var(--accent)"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2" style="background:var(--accent)"></span>
+                        </span>
+                        Open for projects · 2026
+                    </span>
+                </div>
+
+                <!-- Big heading -->
+                <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold uppercase leading-[0.9] mb-10" style="font-family:'Space Grotesk',sans-serif">
+                    Let's Build<br>
+                    <span class="text-outline-white">Something</span><br>
+                    <span style="color:var(--accent)">Memorable.</span>
+                </h2>
+
+                <!-- Action buttons -->
+                <div class="flex flex-wrap gap-4 mb-12">
+                    <a href="mailto:kulpreetkaur1509@gmail.com"
+                       class="inline-flex items-center gap-3 px-8 py-5 font-bold uppercase tracking-widest text-sm transition-all duration-200"
+                       style="background:var(--white);color:var(--black);border:2px solid var(--white);box-shadow:6px 6px 0 0 var(--accent);font-family:'Space Mono',monospace"
+                       onmouseover="this.style.boxShadow='10px 10px 0 0 var(--accent)';this.style.transform='translate(-3px,-3px)'"
+                       onmouseout="this.style.boxShadow='6px 6px 0 0 var(--accent)';this.style.transform=''">
+                        kulpreetkaur1509@gmail.com →
+                    </a>
+                    <button onclick="copyEmail()"
+                            id="copy-btn"
+                            class="inline-flex items-center gap-2.5 px-7 py-5 font-bold uppercase tracking-widest text-sm transition-all duration-200"
+                            style="background:transparent;color:var(--white);border:2px solid #333;font-family:'Space Mono',monospace"
+                            onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'"
+                            onmouseout="this.style.borderColor='#333';this.style.color='var(--white)'">
+                        <svg id="copy-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <span id="copy-text">Copy Email</span>
+                    </button>
+                </div>
+
+                <!-- Contact meta row -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t-2 pt-10" style="border-color:#1a1a1a">
+                    <div>
+                        <p class="text-xs font-mono uppercase tracking-widest mb-1" style="color:#666">Location</p>
+                        <p class="text-sm" style="color:#ccc">India · Remote Worldwide</p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-mono uppercase tracking-widest mb-1" style="color:#666">Response Time</p>
+                        <p class="text-sm" style="color:#ccc">Within 24 hours · <span id="ist-clock" style="color:var(--yellow);font-family:'Space Mono',monospace">--:-- IST</span></p>
+                    </div>
+                    <div>
+                        <p class="text-xs font-mono uppercase tracking-widest mb-1" style="color:#666">Specialisation</p>
+                        <p class="text-sm" style="color:#ccc">Logo Design · Brand Identity · Visual Systems</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer grid: 4 columns -->
+        <div class="max-w-screen-xl mx-auto px-6 lg:px-10 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 border-b-2 pb-12 mb-10" style="border-color:#1a1a1a">
+
+                <!-- Brand -->
+                <div>
+                    <a href="#hero" class="text-2xl font-bold font-mono tracking-tight inline-block mb-4" style="color:var(--white)">
+                        KULPREET<span style="color:var(--accent)">.</span>
+                    </a>
+                    <p class="text-sm leading-relaxed" style="color:#888">
+                        Independent logo &amp; visual identity designer. Turning ideas into identities through perception, emotion and memory.
+                    </p>
+                </div>
+
+                <!-- Navigation -->
+                <div>
+                    <h3 class="text-xs font-mono font-bold uppercase tracking-[0.2em] mb-5" style="color:var(--accent)">Navigate</h3>
+                    <ul class="space-y-3 text-sm" style="color:#aaa">
+                        <li><a href="#hero"    class="hover:text-white transition-colors hover:translate-x-1 inline-block transition-transform">→ Home</a></li>
+                        <li><a href="#work"    class="hover:text-white transition-colors hover:translate-x-1 inline-block transition-transform">→ Featured Work</a></li>
+                        <li><a href="#about"   class="hover:text-white transition-colors hover:translate-x-1 inline-block transition-transform">→ The Mind &amp; Process</a></li>
+                        <li><a href="#gallery" class="hover:text-white transition-colors hover:translate-x-1 inline-block transition-transform">→ Selected Marks</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors hover:translate-x-1 inline-block transition-transform">→ Connect</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h3 class="text-xs font-mono font-bold uppercase tracking-[0.2em] mb-5" style="color:var(--yellow)">Services</h3>
+                    <ul class="space-y-2.5 text-sm" style="color:#888">
+                        <li>Brand Identity Systems</li>
+                        <li>Logo &amp; Wordmark Design</li>
+                        <li>Typography &amp; Colour</li>
+                        <li>Brand Guidelines</li>
+                        <li>Symbolism &amp; Iconography</li>
+                        <li>Perception Strategy</li>
+                    </ul>
+                </div>
+
+                <!-- Connect -->
+                <div>
+                    <h3 class="text-xs font-mono font-bold uppercase tracking-[0.2em] mb-5" style="color:var(--white)">Connect</h3>
+
+                    <!-- Instagram -->
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                       class="flex items-center gap-3 mb-4 p-4 border-2 transition-all duration-200 group"
+                       style="border-color:#2a2a2a;background:#111"
+                       onmouseover="this.style.borderColor='var(--accent)';this.style.boxShadow='5px 5px 0 0 var(--accent)';this.style.transform='translate(-2px,-2px)'"
+                       onmouseout="this.style.borderColor='#2a2a2a';this.style.boxShadow='none';this.style.transform=''">
+                        <!-- Instagram icon -->
+                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" style="color:var(--accent)">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <circle cx="12" cy="12" r="4"/>
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                        </svg>
+                        <div>
+                            <p class="text-xs font-mono font-bold uppercase tracking-widest" style="color:var(--white)">Instagram</p>
+                            <p class="text-xs mt-0.5" style="color:#666">@kulpreet</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#444"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                       class="flex items-center gap-3 p-4 border-2 transition-all duration-200"
+                       style="border-color:#2a2a2a;background:#111"
+                       onmouseover="this.style.borderColor='var(--yellow)';this.style.boxShadow='5px 5px 0 0 var(--yellow)';this.style.transform='translate(-2px,-2px)'"
+                       onmouseout="this.style.borderColor='#2a2a2a';this.style.boxShadow='none';this.style.transform=''">
+                        <!-- LinkedIn icon -->
+                        <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" style="color:var(--yellow)">
+                            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        <div>
+                            <p class="text-xs font-mono font-bold uppercase tracking-widest" style="color:var(--white)">LinkedIn</p>
+                            <p class="text-xs mt-0.5" style="color:#666">Kulpreet Kaur</p>
+                        </div>
+                        <svg class="w-3.5 h-3.5 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#444"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Bottom legal bar -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono" style="color:#555">
+                <p>&copy; 2026 Kulpreet Kaur. All rights reserved. Crafted with intent &amp; psychology.</p>
+                <div class="flex items-center gap-6">
+                    <span style="color:#333">kulpreetkaur1509@gmail.com</span>
+                    <span style="color:#222">|</span>
+                    <button onclick="window.scrollTo({top:0,behavior:'smooth'})"
+                            class="uppercase tracking-widest hover:text-white transition-colors inline-flex items-center gap-1.5"
+                            style="color:#555">
+                        ↑ Back to Top
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══════════════════════════════════════
+         JAVASCRIPT — ALL INTERACTIONS
+    ══════════════════════════════════════ -->
+    <script>
+    (function() {
+
+        /* ── 1. Custom Cursor ── */
+        const dot  = document.getElementById('cur-dot');
+        const ring = document.getElementById('cur-ring');
+        if (dot && ring) {
+            let mx=0, my=0, rx=0, ry=0;
+            document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+            (function animCursor(){
+                rx += (mx-rx)*0.14; ry += (my-ry)*0.14;
+                dot.style.left=mx+'px';  dot.style.top=my+'px';
+                ring.style.left=rx+'px'; ring.style.top=ry+'px';
+                requestAnimationFrame(animCursor);
+            })();
+            document.querySelectorAll('a,button').forEach(el=>{
+                el.addEventListener('mouseenter',()=>document.body.classList.add('c-hover'));
+                el.addEventListener('mouseleave',()=>document.body.classList.remove('c-hover'));
+            });
+            document.querySelectorAll('.masonry-item').forEach(el=>{
+                el.addEventListener('mouseenter',()=>document.body.classList.add('c-hover-mark'));
+                el.addEventListener('mouseleave',()=>document.body.classList.remove('c-hover-mark'));
+            });
+        }
+
+        /* ── 2. Scroll Progress ── */
+        const bar = document.getElementById('progress-bar');
+        if (bar) {
+            window.addEventListener('scroll',()=>{
+                const pct = document.documentElement.scrollTop /
+                    (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+                bar.style.width = (pct*100)+'%';
+            },{passive:true});
+        }
+
+        /* ── 3. Scroll Reveal ── */
+        const revObs = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('active'); });
+        },{ threshold:0.1, rootMargin:'0px 0px -60px 0px' });
+        document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+        /* ── 4. Mobile Nav ── */
+        const mobBtn   = document.getElementById('mob-btn');
+        const mobMenu  = document.getElementById('mob-menu');
+        const mobOpen  = document.getElementById('mob-open');
+        const mobClose = document.getElementById('mob-close');
+        if (mobBtn && mobMenu) {
+            mobBtn.addEventListener('click',()=>{
+                const open = !mobMenu.classList.contains('hidden');
+                mobMenu.classList.toggle('hidden', open);
+                mobOpen.classList.toggle('hidden', !open);
+                mobClose.classList.toggle('hidden', open);
+            });
+            mobMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+                mobMenu.classList.add('hidden');
+                mobOpen.classList.remove('hidden');
+                mobClose.classList.add('hidden');
+            }));
+        }
+
+        /* ── 5. Stat Counters ── */
+        const counterObs = new IntersectionObserver(entries=>{
+            entries.forEach(en=>{
+                if(!en.isIntersecting) return;
+                en.target.querySelectorAll('.stat-num').forEach(el=>{
+                    const target=parseInt(el.dataset.target), suffix=el.dataset.suffix||'';
+                    let n=0, step=Math.ceil(target/50);
+                    const t=setInterval(()=>{ n=Math.min(n+step,target); el.textContent=n+suffix; if(n>=target)clearInterval(t); },28);
+                });
+                counterObs.disconnect();
+            });
+        },{ threshold:0.5 });
+        const statsEl = document.querySelector('.stat-num');
+        if(statsEl) counterObs.observe(statsEl.closest('div').parentElement || statsEl);
+
+        /* ── 6. Gallery Lightbox ── */
+        const lb     = document.getElementById('lightbox');
+        const lbImg  = document.getElementById('lb-img');
+        const lbCap  = document.getElementById('lb-caption');
+        const lbPrev = document.getElementById('lb-prev');
+        const lbNext = document.getElementById('lb-next');
+        const lbX    = document.getElementById('lb-close');
+        const imgs   = Array.from(document.querySelectorAll('.masonry-item img'));
+        let lbIdx    = 0;
+
+        function openLB(i){
+            lbIdx = (i+imgs.length)%imgs.length;
+            lbImg.src = imgs[lbIdx].src;
+            lbImg.alt = imgs[lbIdx].alt;
+            if(lbCap) lbCap.textContent = imgs[lbIdx].alt;
+            lb.classList.add('open');
+            document.body.style.overflow='hidden';
+        }
+        function closeLB(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+
+        document.querySelectorAll('.masonry-item').forEach((item,i)=>{
+            item.addEventListener('click',()=>openLB(i));
+
+            // Dynamic 3D tilt and interactive shadow following mouse
+            item.addEventListener('mousemove', e => {
+                const rect = item.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                item.style.transform = `perspective(700px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg) translate(-3px, -3px)`;
+                const shadowX = Math.round(7 + x * 4);
+                const shadowY = Math.round(7 + y * 4);
+                item.style.boxShadow = `${shadowX}px ${shadowY}px 0 0 #000000`;
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = '';
+                item.style.boxShadow = '';
+            });
+        });
+        if(lb){
+            lbX   && lbX.addEventListener('click', closeLB);
+            lbPrev&& lbPrev.addEventListener('click',()=>openLB(lbIdx-1));
+            lbNext&& lbNext.addEventListener('click',()=>openLB(lbIdx+1));
+            lb.addEventListener('click', e=>{ if(e.target===lb) closeLB(); });
+        }
+        document.addEventListener('keydown', e=>{
+            if(!lb || !lb.classList.contains('open')) return;
+            if(e.key==='Escape')     closeLB();
+            if(e.key==='ArrowLeft')  openLB(lbIdx-1);
+            if(e.key==='ArrowRight') openLB(lbIdx+1);
+        });
+
+        /* ── 7. Live IST Clock ── */
+        function updateIST(){
+            const el = document.getElementById('ist-clock');
+            if(!el) return;
+            try {
+                el.textContent = new Date().toLocaleTimeString('en-US',{
+                    timeZone:'Asia/Kolkata', hour:'2-digit', minute:'2-digit', hour12:true
+                }) + ' IST';
+            } catch { el.textContent='IST'; }
+        }
+        updateIST();
+        setInterval(updateIST, 10000);
+
+        /* ── 8. Copy Email ── */
+        window.copyEmail = function(){
+            const email  = 'kulpreetkaur1509@gmail.com';
+            const textEl = document.getElementById('copy-text');
+            const iconEl = document.getElementById('copy-icon');
+            function success(){
+                if(textEl) textEl.textContent='Copied!';
+                if(iconEl) iconEl.innerHTML='<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
+                setTimeout(()=>{
+                    if(textEl) textEl.textContent='Copy Email';
+                    if(iconEl) iconEl.innerHTML='<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>';
+                }, 2200);
+            }
+            if(navigator.clipboard && window.isSecureContext){
+                navigator.clipboard.writeText(email).then(success).catch(()=>{ window.location.href='mailto:'+email; });
+            } else {
+                const ta=document.createElement('textarea'); ta.value=email;
+                ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta);
+                ta.select();
+                try{ document.execCommand('copy'); success(); } catch{ window.location.href='mailto:'+email; }
+                document.body.removeChild(ta);
+            }
+        };
+
+        /* ── 9. Brut-shadow hover on stat panels ── */
+        document.querySelectorAll('.stat-num').forEach(el=>{
+            const cell = el.closest('div');
+            if(!cell) return;
+            cell.style.transition='background 0.15s';
+            cell.addEventListener('mouseenter',()=>{ cell.style.background='#ffe135'; });
+            cell.addEventListener('mouseleave',()=>{ cell.style.background=''; });
+        });
+
+        /* ── 10. Nav active link ── */
+        const navAs = document.querySelectorAll('nav a[href^="#"]');
+        const secs  = Array.from(navAs).map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+        function highlightNav(){
+            const y = window.scrollY + 110;
+            let cur = secs[0];
+            secs.forEach(s=>{ if(s.offsetTop<=y) cur=s; });
+            navAs.forEach(a=>{
+                const active = a.getAttribute('href')==='#'+(cur&&cur.id);
+                a.style.color = active ? 'var(--accent)' : '';
+            });
+        }
+        window.addEventListener('scroll', highlightNav, {passive:true});
+        highlightNav();
+
+    })();
+    </script>
+
+</body>
+</html>
